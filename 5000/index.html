@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QQEnglish — 5,000万回突破記念</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+JP:wght@200;300;400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ════════════════════════════════════
+   GLOBAL
+════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --cream: #0B2240;
+  --deep: #FFFFFF;
+  --ocean: #0077B6;
+  --gold: #00AACD;
+  --gold-light: #00C8E8;
+  --serif: 'Cormorant Garamond', 'Noto Serif JP', Georgia, serif;
+  --sans: 'DM Sans', sans-serif;
+  --text-muted: rgba(11,34,64,0.62);
+  --text-dim: rgba(11,34,64,0.38);
+  --border: rgba(0,170,205,0.25);
+}
+html { scroll-behavior: smooth; }
+body { background: #FFFFFF; color: #0B2240; font-family: var(--sans); overflow-x: hidden; }
+
+/* scroll reveal */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.75s ease, transform 0.75s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* shared section grid bg */
+.grid-bg::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(0,170,205,0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,170,205,0.07) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+/* shared section labels */
+.eyebrow { font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+.sec-title { font-family: var(--serif); font-weight: 300; font-size: clamp(34px, 4.5vw, 54px); line-height: 1.1; }
+.sec-title em { font-style: italic; color: var(--gold-light); }
+.sec-sub { font-family: var(--serif); font-size: clamp(14px, 1.5vw, 17px); font-weight: 300; color: var(--text-muted); line-height: 1.8; margin-top: 16px; }
+.header-rule { width: 1px; height: 40px; background: linear-gradient(to bottom, transparent, var(--gold), transparent); margin: 24px auto 0; }
+
+/* shared buttons */
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 30px; background: var(--gold); color: var(--deep);
+  font-family: var(--sans); font-size: 11px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  border: none; border-radius: 2px; cursor: pointer; text-decoration: none;
+  transition: background 0.25s, transform 0.2s;
+}
+.btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 30px; background: transparent; color: var(--cream);
+  font-family: var(--sans); font-size: 11px; font-weight: 400;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  border: 1px solid rgba(11,34,64,0.22); border-radius: 2px;
+  cursor: pointer; text-decoration: none;
+  transition: border-color 0.25s, color 0.25s, transform 0.2s;
+}
+.btn-ghost:hover { border-color: var(--gold); color: var(--gold-light); transform: translateY(-1px); }
+
+/* ════════════════════════════════════
+   NAV
+════════════════════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 48px;
+  background: linear-gradient(to bottom, rgba(240,250,255,0.96), transparent);
+  transition: background 0.4s;
+}
+nav.scrolled { background: rgba(255,255,255,0.97); border-bottom: 1px solid rgba(0,170,205,0.2); box-shadow: 0 2px 20px rgba(0,119,182,0.08); }
+.nav-logo { font-family: var(--serif); font-size: 15px; letter-spacing: 0.15em; color: var(--cream); opacity: 0.88; text-decoration: none; }
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cream); opacity: 0.48; text-decoration: none; transition: opacity 0.3s; }
+.nav-links a:hover { opacity: 1; }
+.nav-links a.cta { opacity: 0.9; color: var(--gold); }
+.nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+.nav-hamburger span { display: block; width: 22px; height: 1px; background: var(--cream); opacity: 0.6; transition: 0.3s; }
+
+/* ════════════════════════════════════
+   §1 HERO
+════════════════════════════════════ */
+#hero {
+  position: relative; min-height: 100vh;
+  display: grid; grid-template-rows: 1fr auto;
+  overflow: hidden; padding-top: 64px;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(to bottom, rgba(240,249,255,0.82) 0%, rgba(240,249,255,0.78) 60%, rgba(240,249,255,0.88) 100%),
+    url('hero_photo.jpg');
+  background-size: cover;
+  background-position: center 30%;
+}
+.hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(0,170,205,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,170,205,0.04) 1px, transparent 1px); background-size: 56px 56px; animation: gridDrift 50s linear infinite; }
+@keyframes gridDrift { from { transform: translateY(0); } to { transform: translateY(56px); } }
+.orb { position: absolute; border-radius: 50%; filter: blur(90px); pointer-events: none; animation: orbFloat var(--dur,14s) ease-in-out infinite alternate; }
+.orb-1 { width: 500px; height: 500px; top: -150px; left: -150px; background: rgba(0,119,182,0.16); --dur:18s; }
+.orb-2 { width: 280px; height: 280px; bottom: 80px; right: -60px; background: rgba(0,170,205,0.09); --dur:12s; }
+@keyframes orbFloat { from { transform: translate(0,0); } to { transform: translate(24px,18px); } }
+
+.hero-inner {
+  position: relative; z-index: 10;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  padding: 0 60px;
+  min-height: calc(100vh - 44px - 64px);
+  max-width: 860px; margin: 0 auto; width: 100%;
+}
+.hero-left { padding-right: 0; width: 100%; }
+
+.achieved-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(0,170,205,0.12); border: 1px solid rgba(0,170,205,0.35);
+  border-radius: 2px; padding: 6px 14px; margin-bottom: 20px;
+  opacity: 0; animation: fadeUp 0.8s ease forwards 0.15s;
+}
+.badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); animation: badgePulse 2s ease-in-out infinite; }
+@keyframes badgePulse { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+.badge-text { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-light); }
+
+.hero-eyebrow { font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; opacity: 0; animation: fadeUp 0.8s ease forwards 0.3s; }
+.hero-hl { font-family: var(--serif); font-weight: 300; line-height: 1.12; margin-bottom: 18px; opacity: 0; animation: fadeUp 1s ease forwards 0.6s; }
+.hero-hl .l1 { display: block; font-size: clamp(46px, 6vw, 74px); }
+.hero-hl .l2 { display: block; font-size: clamp(46px, 6vw, 74px); }
+.hero-hl .accent { color: var(--gold-light); }
+.hero-hl .l3 { display: block; font-size: clamp(13px, 1.5vw, 17px); font-style: italic; color: rgba(11,34,64,0.45); letter-spacing: 0.05em; margin-top: 10px; }
+.hero-divider { width: 40px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); margin: 24px auto; opacity: 0; animation: fadeIn 1s ease forwards 1s; }
+.hero-sub { font-family: var(--serif); font-size: clamp(14px, 1.5vw, 17px); font-weight: 300; line-height: 1.85; color: rgba(11,34,64,0.65); margin-bottom: 36px; max-width: 520px; margin-left: auto; margin-right: auto; opacity: 0; animation: fadeUp 1s ease forwards 1.1s; }
+
+.stat-row { display: flex; gap: 0; margin-bottom: 36px; opacity: 0; animation: fadeUp 1s ease forwards 1.3s; justify-content: center; }
+.stat-item { padding: 0 24px 0 0; position: relative; }
+.stat-item + .stat-item { padding-left: 24px; }
+.stat-item + .stat-item::before { content: ''; position: absolute; left: 0; top: 15%; bottom: 15%; width: 1px; background: rgba(0,170,205,0.3); }
+.stat-num { font-family: var(--serif); font-size: clamp(26px, 3vw, 36px); font-weight: 400; color: var(--gold-light); display: block; line-height: 1; }
+.stat-label { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(11,34,64,0.38); display: block; margin-top: 4px; }
+
+.hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; opacity: 0; animation: fadeUp 1s ease forwards 1.5s; justify-content: center; }
+
+.hero-right { position: relative; display: flex; flex-direction: column; justify-content: center; padding-left: 20px; opacity: 0; animation: fadeIn 1.2s ease forwards 1s; }
+.chart-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 16px; }
+.chart-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(11,34,64,0.28); }
+.chart-achieved { display: flex; align-items: center; gap: 6px; font-size: 10px; color: var(--gold-light); letter-spacing: 0.1em; }
+.chart-achieved::before { content: ''; display: block; width: 8px; height: 8px; border-radius: 50%; background: var(--gold-light); animation: badgePulse 2s ease-in-out infinite; }
+.chart-wrap { position: relative; height: 260px; }
+canvas#heroChart { width: 100% !important; height: 100% !important; }
+.chart-tt { position: absolute; pointer-events: none; background: rgba(255,255,255,0.97); border: 1px solid rgba(0,170,205,0.4); border-radius: 3px; padding: 8px 12px; font-size: 11px; white-space: nowrap; transform: translate(-50%, calc(-100% - 10px)); opacity: 0; z-index: 20; transition: opacity 0.15s; box-shadow: 0 4px 16px rgba(0,119,182,0.1); }
+.chart-tt .tt-y { font-family: var(--serif); font-size: 15px; color: var(--gold-light); display: block; margin-bottom: 3px; }
+.chart-tt .tt-r { font-size: 10px; color: rgba(11,34,64,0.55); display: block; line-height: 1.6; }
+.chart-legend { display: flex; gap: 20px; margin-top: 12px; }
+.leg-item { display: flex; align-items: center; gap: 6px; font-size: 10px; color: rgba(11,34,64,0.35); }
+.leg-bar { width: 12px; height: 10px; border-radius: 1px; background: rgba(0,170,205,0.45); }
+.leg-line { width: 16px; height: 1.5px; background: rgba(11,34,64,0.45); }
+
+.side-text { position: absolute; font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase; color: rgba(11,34,64,0.13); writing-mode: vertical-rl; z-index: 10; opacity: 0; animation: fadeIn 1.5s ease forwards 2s; left: 20px; bottom: 80px; }
+
+.hero-photo-wrap { position: relative; border-radius: 6px; overflow: hidden; box-shadow: 0 24px 64px rgba(0,119,182,0.18), 0 4px 16px rgba(0,0,0,0.08); }
+.hero-photo-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; display: block; }
+.hero-photo-wrap::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(0,170,205,0.08) 0%, transparent 60%); pointer-events: none; }
+.hero-photo-badge { position: absolute; bottom: 16px; left: 16px; right: 16px; background: rgba(255,255,255,0.92); backdrop-filter: blur(8px); border-radius: 4px; padding: 10px 16px; display: flex; align-items: center; gap: 12px; border-top: 2px solid var(--gold); }
+.hero-photo-badge-num { font-family: var(--serif); font-size: 20px; font-weight: 400; color: var(--gold); line-height: 1; white-space: nowrap; }
+.hero-photo-badge-txt { font-size: 11px; color: rgba(11,34,64,0.7); line-height: 1.5; }
+
+.ticker-bar { position: relative; z-index: 10; border-top: 1px solid rgba(0,170,205,0.25); background: rgba(0,170,205,0.07); overflow: hidden; height: 44px; opacity: 0; animation: fadeIn 1s ease forwards 2s; }
+.ticker-inner { display: flex; align-items: center; height: 100%; animation: tickerScroll 40s linear infinite; width: max-content; }
+.ticker-item { display: flex; align-items: center; gap: 10px; padding: 0 44px; white-space: nowrap; font-size: 10px; letter-spacing: 0.13em; color: rgba(11,34,64,0.35); }
+.ticker-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--gold); opacity: 0.7; }
+.ticker-hi { color: var(--gold-light); font-weight: 500; }
+@keyframes tickerScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ════════════════════════════════════
+   §2 TIMELINE
+════════════════════════════════════ */
+#timeline { position: relative; padding: 110px 0 90px; overflow: hidden; }
+#timeline .bg {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 60% 40% at 20% 50%, rgba(0,119,182,0.12) 0%, transparent 70%);
+}
+.sec-header { text-align: center; padding: 0 40px; margin-bottom: 64px; position: relative; z-index: 2; }
+
+.tl-wrap { position: relative; z-index: 2; max-width: 880px; margin: 0 auto; padding: 0 40px; }
+.tl-wrap::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, transparent 0%, var(--border) 4%, var(--border) 96%, transparent 100%); transform: translateX(-50%); }
+
+.tl-entry { display: grid; grid-template-columns: 1fr 48px 1fr; align-items: start; margin-bottom: 52px; opacity: 0; transform: translateY(18px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.tl-entry.visible { opacity: 1; transform: translateY(0); }
+.tl-entry:nth-child(odd)  .tl-card   { grid-column: 1; }
+.tl-entry:nth-child(odd)  .tl-center { grid-column: 2; }
+.tl-entry:nth-child(odd)  .tl-sp     { grid-column: 3; }
+.tl-entry:nth-child(even) .tl-sp     { grid-column: 1; }
+.tl-entry:nth-child(even) .tl-center { grid-column: 2; }
+.tl-entry:nth-child(even) .tl-card   { grid-column: 3; }
+
+.tl-center { display: flex; flex-direction: column; align-items: center; padding-top: 6px; grid-row: 1; }
+.tl-node { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid rgba(0,170,205,0.5); background: var(--deep); z-index: 2; flex-shrink: 0; transition: 0.3s; }
+.tl-node.ms { width: 20px; height: 20px; background: var(--gold); border-color: var(--gold); box-shadow: 0 0 0 5px rgba(0,170,205,0.14), 0 0 18px rgba(0,170,205,0.25); }
+.tl-entry:hover .tl-node:not(.ms) { background: rgba(0,170,205,0.2); border-color: var(--gold); }
+.tl-yr { font-family: var(--serif); font-size: 13px; color: var(--text-dim); margin-top: 8px; text-align: center; transition: 0.3s; }
+.tl-entry:hover .tl-yr, .ms + .tl-yr { color: var(--gold-light); }
+
+.tl-card { padding: 4px 20px 0; grid-row: 1; }
+.tl-entry:nth-child(odd)  .tl-card { text-align: right; }
+.tl-entry:nth-child(even) .tl-card { text-align: left; }
+.tl-card-inner { display: inline-block; text-align: left; background: rgba(11,34,64,0.03); border: 0.5px solid rgba(0,170,205,0.14); border-radius: 3px; padding: 16px 20px; max-width: 340px; transition: 0.3s; }
+.tl-entry:hover .tl-card-inner { background: rgba(0,170,205,0.07); border-color: rgba(0,170,205,0.35); }
+.tl-entry:nth-child(odd)  .tl-card-inner { border-right: 2px solid rgba(0,170,205,0.2); }
+.tl-entry:nth-child(even) .tl-card-inner { border-left: 2px solid rgba(0,170,205,0.2); }
+.tl-entry:nth-child(odd):hover  .tl-card-inner { border-right-color: rgba(0,170,205,0.5); }
+.tl-entry:nth-child(even):hover .tl-card-inner { border-left-color: rgba(0,170,205,0.5); }
+.tl-tag { display: inline-block; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); border: 0.5px solid rgba(0,170,205,0.4); border-radius: 2px; padding: 2px 7px; margin-bottom: 8px; }
+.tl-num { font-family: var(--serif); font-size: clamp(17px, 2vw, 24px); font-weight: 400; color: var(--gold-light); display: block; margin-bottom: 5px; line-height: 1.1; }
+.tl-ttl { font-size: 13px; font-weight: 500; color: var(--cream); margin-bottom: 7px; }
+.tl-desc { font-family: var(--serif); font-size: clamp(12px, 1.2vw, 14px); font-weight: 300; line-height: 1.75; color: var(--text-muted); }
+.tl-desc strong { font-weight: 400; color: var(--cream); }
+.tl-sp { grid-row: 1; }
+
+.tl-final { text-align: center; padding: 48px 40px 0; position: relative; z-index: 2; opacity: 0; transform: translateY(20px); transition: 0.8s ease; }
+.tl-final.visible { opacity: 1; transform: translateY(0); }
+.final-node-wrap { display: flex; flex-direction: column; align-items: center; margin-bottom: 32px; }
+.final-line { width: 1px; height: 48px; background: linear-gradient(to bottom, var(--border), var(--gold)); }
+.final-star { width: 32px; height: 32px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 8px rgba(0,170,205,0.12), 0 0 32px rgba(0,170,205,0.3); display: flex; align-items: center; justify-content: center; animation: starPulse 3s ease-in-out infinite; }
+.final-star svg { width: 14px; height: 14px; fill: var(--deep); }
+@keyframes starPulse { 0%,100%{box-shadow:0 0 0 8px rgba(0,170,205,0.12),0 0 32px rgba(0,170,205,0.3);}50%{box-shadow:0 0 0 14px rgba(0,170,205,0.08),0 0 48px rgba(0,170,205,0.45);} }
+.final-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,170,205,0.1); border: 1px solid rgba(0,170,205,0.4); border-radius: 2px; padding: 7px 18px; margin-bottom: 20px; }
+.final-badge span { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-light); }
+.final-num { font-family: var(--serif); font-size: clamp(56px, 8vw, 88px); font-weight: 300; color: var(--gold-light); letter-spacing: -0.02em; line-height: 1; display: block; margin-bottom: 10px; }
+.final-label { font-family: var(--serif); font-size: clamp(18px, 2.5vw, 26px); font-weight: 300; font-style: italic; color: rgba(11,34,64,0.7); margin-bottom: 10px; }
+.final-sub-txt { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); }
+
+/* ════════════════════════════════════
+   §3 MESSAGE (CEO)
+════════════════════════════════════ */
+#message { position: relative; padding: 110px 0; overflow: hidden; }
+#message .bg { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 70% 60% at 60% 40%, rgba(0,119,182,0.16) 0%, transparent 68%); }
+#message .deco-top { position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent 0%, rgba(0,170,205,0.3) 30%, rgba(0,170,205,0.3) 70%, transparent 100%); }
+
+.msg-layout { display: grid; grid-template-columns: 360px 1fr; gap: 0; max-width: 1100px; margin: 0 auto; padding: 0 60px; position: relative; z-index: 2; }
+.msg-photo-col { padding-right: 60px; }
+.photo-frame { position: relative; width: 100%; padding-bottom: 128%; overflow: hidden; border-radius: 2px; }
+.photo-frame::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--gold), transparent); z-index: 2; }
+.photo-ph { position: absolute; inset: 0; background: linear-gradient(160deg, #D8F3FC, #B0E6F7); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; }
+.ph-ring { width: 100px; height: 100px; border-radius: 50%; border: 1px solid rgba(0,170,205,0.35); display: flex; align-items: center; justify-content: center; background: rgba(0,170,205,0.05); }
+.ph-init { font-family: var(--serif); font-size: 48px; font-weight: 300; color: var(--gold-light); line-height: 1; }
+.ph-lbl { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); }
+.photo-caption { margin-top: 20px; padding: 16px 20px; border: 0.5px solid var(--border); border-radius: 2px; background: rgba(11,34,64,0.02); }
+.cap-name { font-family: var(--serif); font-size: 22px; font-weight: 400; color: var(--cream); margin-bottom: 4px; }
+.cap-name-en { font-family: var(--serif); font-size: 13px; font-style: italic; color: var(--text-muted); margin-bottom: 10px; }
+.cap-div { width: 24px; height: 1px; background: rgba(0,170,205,0.4); margin-bottom: 10px; }
+.cap-title { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-dim); line-height: 1.6; }
+.video-btn { display: flex; align-items: center; gap: 12px; margin-top: 16px; padding: 12px 16px; background: rgba(0,170,205,0.08); border: 0.5px solid rgba(0,170,205,0.3); border-radius: 2px; cursor: pointer; text-decoration: none; transition: 0.25s; }
+.video-btn:hover { background: rgba(0,170,205,0.14); border-color: rgba(0,170,205,0.55); }
+.vplay { width: 32px; height: 32px; border-radius: 50%; background: var(--gold); flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.vplay svg { width: 12px; height: 12px; fill: var(--deep); margin-left: 2px; }
+.vbtn-txt { font-size: 11px; letter-spacing: 0.08em; color: var(--gold-light); }
+.vbtn-sub { font-size: 10px; color: var(--text-dim); margin-top: 1px; }
+
+.msg-text-col { padding-left: 60px; border-left: 1px solid var(--border); display: flex; flex-direction: column; justify-content: center; }
+.pull-q { position: relative; margin-bottom: 36px; }
+.pull-q-mark { font-family: var(--serif); font-size: 80px; font-weight: 300; color: rgba(0,170,205,0.15); line-height: 0.6; position: absolute; top: -10px; left: -12px; user-select: none; }
+.pull-q-text { font-family: var(--serif); font-size: clamp(22px, 2.8vw, 34px); font-weight: 300; line-height: 1.4; color: var(--cream); padding-left: 8px; position: relative; z-index: 1; }
+.pull-q-text em { font-style: italic; color: var(--gold-light); }
+.msg-body { font-family: var(--serif); font-size: clamp(14px, 1.5vw, 16px); font-weight: 300; line-height: 2; color: var(--text-muted); margin-bottom: 32px; }
+.msg-body p + p { margin-top: 1.4em; }
+.msg-body strong { font-weight: 400; color: rgba(11,34,64,0.8); }
+.key-phrase { border-left: 2px solid var(--gold); padding: 12px 20px; margin: 28px 0; font-family: var(--serif); font-size: clamp(15px, 1.6vw, 18px); font-weight: 300; font-style: italic; color: rgba(11,34,64,0.75); line-height: 1.7; }
+.signoff { display: flex; align-items: center; gap: 20px; padding-top: 28px; border-top: 0.5px solid var(--border); }
+.so-name { font-family: var(--serif); font-size: 18px; font-weight: 400; color: var(--cream); margin-bottom: 3px; }
+.so-title { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); }
+.so-sig { font-family: var(--serif); font-size: 28px; font-style: italic; font-weight: 300; color: rgba(0,170,205,0.5); }
+
+.num-strip { max-width: 1100px; margin: 72px auto 0; padding: 0 60px; position: relative; z-index: 2; }
+.strip-inner { display: grid; grid-template-columns: repeat(4, 1fr); border: 0.5px solid var(--border); border-radius: 3px; overflow: hidden; }
+.strip-item { padding: 28px 24px; text-align: center; background: rgba(11,34,64,0.02); border-right: 0.5px solid var(--border); position: relative; }
+.strip-item:last-child { border-right: none; }
+.strip-item::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, rgba(0,170,205,0.35), transparent); }
+.strip-num { font-family: var(--serif); font-size: clamp(24px, 2.8vw, 36px); font-weight: 300; color: var(--gold-light); line-height: 1; display: block; margin-bottom: 6px; }
+.strip-lbl { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); }
+
+/* ════════════════════════════════════
+   §4 TEACHERS
+════════════════════════════════════ */
+#teachers { position: relative; padding: 110px 0; overflow: hidden; }
+#teachers .bg { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 50% 40% at 80% 20%, rgba(0,119,182,0.12) 0%, transparent 70%); }
+.filter-row { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 48px; position: relative; z-index: 2; padding: 0 20px; }
+.filter-btn { font-family: var(--sans); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; padding: 7px 16px; background: transparent; color: var(--text-muted); border: 0.5px solid rgba(11,34,64,0.15); border-radius: 2px; cursor: pointer; transition: 0.25s; }
+.filter-btn:hover { color: var(--cream); border-color: rgba(11,34,64,0.35); }
+.filter-btn.active { color: var(--gold-light); border-color: var(--gold); background: rgba(0,170,205,0.08); }
+.gallery-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; position: relative; z-index: 2; border: 1px solid var(--border); margin: 0 40px; overflow: hidden; border-radius: 4px; }
+.t-card { position: relative; overflow: hidden; background: rgba(11,34,64,0.02); cursor: pointer; }
+.t-card::after { content: ''; position: absolute; inset: 0; border: 0.5px solid var(--border); pointer-events: none; }
+.t-photo { position: relative; width: 100%; padding-bottom: 120%; overflow: hidden; background: #D8F3FC; }
+.t-photo-ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(160deg, #D8F3FC, #A8DCF0); }
+.t-av { width: 56px; height: 56px; border-radius: 50%; border: 1.5px solid rgba(0,170,205,0.4); display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 22px; font-weight: 300; color: var(--gold-light); margin-bottom: 8px; background: rgba(0,170,205,0.06); }
+.t-av-lbl { font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); }
+.rank-badge { position: absolute; top: 10px; left: 10px; z-index: 3; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 13px; font-weight: 400; background: var(--gold); color: var(--deep); box-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+.rank-badge.top1 { width: 30px; height: 30px; font-size: 15px; box-shadow: 0 0 0 3px rgba(0,170,205,0.25), 0 2px 12px rgba(0,0,0,0.4); }
+.t-overlay { position: absolute; inset: 0; z-index: 2; background: linear-gradient(to top, rgba(255,255,255,0.97) 0%, rgba(255,255,255,0.5) 45%, transparent 80%); }
+.t-info { position: absolute; bottom: 0; left: 0; right: 0; z-index: 3; padding: 14px 14px 12px; }
+.t-name { font-family: var(--serif); font-size: clamp(13px, 1.4vw, 17px); font-weight: 400; color: var(--cream); line-height: 1.2; margin-bottom: 2px; }
+.t-lessons { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-light); }
+.t-hover { position: absolute; inset: 0; z-index: 4; background: rgba(240,250,255,0.97); display: flex; flex-direction: column; justify-content: center; padding: 20px 18px; opacity: 0; transform: translateY(8px); transition: opacity 0.35s ease, transform 0.35s ease; pointer-events: none; }
+.t-card:hover .t-hover { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.h-tag { font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+.h-name { font-family: var(--serif); font-size: clamp(16px, 1.8vw, 22px); font-weight: 400; color: var(--cream); margin-bottom: 6px; line-height: 1.2; }
+.h-lessons { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 12px; }
+.h-div { width: 24px; height: 1px; background: rgba(0,170,205,0.4); margin-bottom: 12px; }
+.h-quote { font-family: var(--serif); font-size: clamp(11px, 1.1vw, 13px); font-weight: 300; line-height: 1.75; color: rgba(11,34,64,0.7); font-style: italic; }
+.h-quote::before { content: '"'; color: var(--gold); font-style: normal; }
+.h-quote::after  { content: '"'; color: var(--gold); font-style: normal; }
+.h-yrs { margin-top: 12px; display: flex; align-items: center; gap: 8px; }
+.h-yrs-lbl { font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); }
+.h-yrs-val { font-family: var(--serif); font-size: 14px; color: var(--gold-light); }
+.t-card.wide { grid-column: span 1; }
+.t-card.wide .t-photo { padding-bottom: 120%; }
+.t-stat-bar { display: flex; margin: 1px 40px 0; border: 0.5px solid var(--border); border-radius: 3px; overflow: hidden; position: relative; z-index: 2; }
+.t-stat-item { flex: 1; text-align: center; padding: 20px 16px; background: rgba(11,34,64,0.02); border-right: 0.5px solid var(--border); }
+.t-stat-item:last-child { border-right: none; }
+.t-stat-num { font-family: var(--serif); font-size: clamp(20px, 2.2vw, 28px); font-weight: 400; color: var(--gold-light); display: block; margin-bottom: 4px; }
+.t-stat-lbl { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); }
+
+/* ════════════════════════════════════
+   §5 CAMPAIGNS
+════════════════════════════════════ */
+#campaigns { position: relative; padding: 110px 0 100px; overflow: hidden; }
+#campaigns .bg { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 55% 45% at 15% 30%, rgba(0,119,182,0.14) 0%, transparent 70%), radial-gradient(ellipse 45% 35% at 85% 70%, rgba(0,170,205,0.07) 0%, transparent 65%); }
+.camps { position: relative; z-index: 2; padding: 0 40px; display: flex; flex-direction: column; gap: 2px; }
+.c-card { border: 0.5px solid var(--border); border-radius: 3px; overflow: hidden; background: rgba(11,34,64,0.02); }
+.c-head { display: grid; grid-template-columns: 80px 1fr auto; align-items: center; cursor: pointer; transition: background 0.3s; }
+.c-head:hover { background: rgba(0,170,205,0.05); }
+.c-num-col { display: flex; align-items: center; justify-content: center; padding: 28px 0; border-right: 0.5px solid var(--border); min-height: 100%; }
+.c-num { font-family: var(--serif); font-size: 40px; font-weight: 300; color: rgba(0,170,205,0.22); line-height: 1; transition: color 0.3s; }
+.c-card.open .c-num, .c-head:hover .c-num { color: var(--gold-light); }
+.c-title-col { padding: 28px 32px; }
+.c-tag { display: inline-block; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); border: 0.5px solid rgba(0,170,205,0.4); border-radius: 2px; padding: 2px 8px; margin-bottom: 10px; }
+.c-title { font-family: var(--serif); font-size: clamp(17px, 2vw, 24px); font-weight: 300; color: var(--cream); line-height: 1.25; margin-bottom: 8px; }
+.c-sub { font-size: 11px; letter-spacing: 0.06em; color: var(--text-muted); line-height: 1.6; }
+.c-right { display: flex; flex-direction: column; align-items: flex-end; justify-content: center; padding: 28px 28px 28px 20px; gap: 16px; border-left: 0.5px solid var(--border); min-width: 180px; }
+.c-prize-lbl { font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; text-align: right; }
+.c-prize-val { font-family: var(--serif); font-size: clamp(14px, 1.6vw, 18px); font-weight: 400; color: var(--gold-light); text-align: right; line-height: 1.3; }
+.c-toggle { width: 28px; height: 28px; border-radius: 50%; border: 0.5px solid rgba(0,170,205,0.4); display: flex; align-items: center; justify-content: center; font-size: 14px; color: var(--gold); transition: transform 0.35s ease, background 0.3s; flex-shrink: 0; align-self: flex-end; }
+.c-card.open .c-toggle { transform: rotate(45deg); background: rgba(0,170,205,0.1); border-color: var(--gold); }
+.c-body { max-height: 0; overflow: hidden; transition: max-height 0.55s cubic-bezier(0.4,0,0.2,1); border-top: 0.5px solid transparent; }
+.c-card.open .c-body { max-height: 600px; border-top-color: var(--border); }
+.c-body-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 0; padding: 40px 40px 40px 80px; }
+.c-bl { padding-right: 40px; border-right: 0.5px solid var(--border); }
+.c-br { padding-left: 40px; }
+.c-sec-lbl { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+.c-desc { font-family: var(--serif); font-size: clamp(13px, 1.4vw, 15px); font-weight: 300; line-height: 1.85; color: var(--text-muted); margin-bottom: 20px; }
+.c-desc strong { font-weight: 400; color: var(--cream); }
+.how-steps { display: flex; flex-direction: column; gap: 12px; }
+.how-step { display: flex; gap: 14px; align-items: flex-start; }
+.how-step-n { width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0; border: 0.5px solid rgba(0,170,205,0.45); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 500; color: var(--gold); margin-top: 1px; }
+.how-step-t { font-size: 12px; line-height: 1.7; color: var(--text-muted); font-family: var(--serif); }
+.how-step-t strong { font-weight: 400; color: var(--cream); }
+.prize-box { background: rgba(0,170,205,0.06); border: 0.5px solid rgba(0,170,205,0.25); border-radius: 3px; padding: 24px; margin-bottom: 20px; }
+.prize-icon { font-size: 24px; margin-bottom: 10px; }
+.prize-title { font-family: var(--serif); font-size: clamp(17px, 1.8vw, 22px); font-weight: 400; color: var(--gold-light); margin-bottom: 6px; }
+.prize-sub { font-size: 11px; color: var(--text-muted); line-height: 1.7; }
+.prize-note { font-size: 11px; color: var(--text-dim); line-height: 1.7; font-style: italic; }
+.c-cta-row { margin-top: 28px; display: flex; gap: 10px; flex-wrap: wrap; }
+.c-period { display: flex; align-items: center; gap: 8px; margin-top: 16px; font-size: 10px; letter-spacing: 0.12em; color: var(--text-dim); }
+.c-period-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); opacity: 0.6; animation: badgePulse 2s ease-in-out infinite; }
+.report-co { margin: 2px 40px 0; border: 0.5px solid rgba(0,119,182,0.5); background: rgba(0,119,182,0.08); border-radius: 3px; padding: 20px 28px; display: flex; align-items: center; justify-content: space-between; gap: 20px; position: relative; z-index: 2; }
+.rc-left { display: flex; align-items: center; gap: 16px; }
+.rc-icon { font-size: 28px; flex-shrink: 0; }
+.rc-head { font-size: 12px; font-weight: 500; color: var(--cream); margin-bottom: 3px; }
+.rc-sub { font-size: 11px; color: var(--text-muted); }
+.btn-report { display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; padding: 10px 20px; background: transparent; color: var(--gold-light); font-family: var(--sans); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; border: 1px solid rgba(0,119,182,0.8); border-radius: 2px; cursor: pointer; text-decoration: none; transition: 0.25s; }
+.btn-report:hover { background: rgba(0,119,182,0.2); }
+
+/* ════════════════════════════════════
+   FOOTER
+════════════════════════════════════ */
+footer { position: relative; text-align: center; padding: 80px 40px 60px; border-top: 0.5px solid var(--border); overflow: hidden; }
+footer .bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 50% 100%, rgba(0,119,182,0.12) 0%, transparent 70%); pointer-events: none; }
+.footer-logo { font-family: var(--serif); font-size: 28px; font-weight: 300; color: var(--cream); letter-spacing: 0.1em; margin-bottom: 12px; }
+.footer-mission { font-family: var(--serif); font-size: 14px; font-style: italic; color: var(--text-muted); letter-spacing: 0.06em; margin-bottom: 32px; }
+.footer-links { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin-bottom: 40px; }
+.footer-links a { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; transition: color 0.25s; }
+.footer-links a:hover { color: var(--gold-light); }
+.footer-copy { font-size: 11px; color: var(--text-dim); }
+.footer-divider { width: 48px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); margin: 0 auto 32px; }
+
+/* ════════════════════════════════════
+   ANIMATIONS
+════════════════════════════════════ */
+@keyframes fadeUp { from { opacity:0; transform:translateY(22px); } to { opacity:1; transform:translateY(0); } }
+@keyframes fadeIn  { from { opacity:0; } to { opacity:1; } }
+
+/* ════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════ */
+@media (max-width: 800px) {
+  nav { padding: 16px 20px; }
+  .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
+  .hero-inner { grid-template-columns: 1fr; padding: 0 24px; gap: 32px; }
+  .hero-left { padding-right: 0; }
+  .hero-right { padding-left: 0; }
+  .hero-photo-wrap { height: 260px !important; }
+  .tl-wrap { padding: 0 16px; }
+  .tl-wrap::before { left: 24px; transform: none; }
+  .tl-entry { grid-template-columns: 44px 1fr; }
+  .tl-entry:nth-child(n) .tl-card   { grid-column: 2 !important; text-align: left !important; padding-left: 0; padding-right: 0; }
+  .tl-entry:nth-child(n) .tl-center { grid-column: 1 !important; }
+  .tl-entry:nth-child(n) .tl-sp     { display: none; }
+  .tl-card-inner { max-width: 100%; border-right: none !important; border-left: none !important; border-top: 2px solid rgba(0,170,205,0.2) !important; }
+  .msg-layout { grid-template-columns: 1fr; padding: 0 24px; }
+  .msg-photo-col { padding-right: 0; margin-bottom: 40px; }
+  .photo-frame { padding-bottom: 90%; }
+  .msg-text-col { padding-left: 0; border-left: none; border-top: 0.5px solid var(--border); padding-top: 40px; }
+  .strip-inner { grid-template-columns: repeat(2, 1fr); }
+  .num-strip { padding: 0 24px; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); margin: 0 20px; }
+  .t-card.wide { grid-column: span 2; }
+  .t-stat-bar { flex-wrap: wrap; margin: 1px 20px 0; }
+  .t-stat-item { min-width: 50%; }
+  .camps { padding: 0 20px; }
+  .c-body-inner { grid-template-columns: 1fr; padding: 24px 20px; }
+  .c-bl { border-right: none; border-bottom: 0.5px solid var(--border); padding-right: 0; padding-bottom: 24px; margin-bottom: 24px; }
+  .c-br { padding-left: 0; }
+  .c-right { min-width: 110px; padding: 20px 16px; }
+  .report-co { flex-direction: column; align-items: flex-start; margin: 2px 20px 0; }
+  .sec-header { padding: 0 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav id="mainNav">
+  <a href="#hero" class="nav-logo">QQ English</a>
+  <ul class="nav-links">
+    <li><a href="#timeline">歴史</a></li>
+    <li><a href="#message">代表挨拶</a></li>
+    <li><a href="#teachers">教師たち</a></li>
+    <li><a href="#campaigns">キャンペーン</a></li>
+    <li><a href="#campaigns" class="cta">参加する</a></li>
+  </ul>
+  <div class="nav-hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ══ §1 HERO ══ -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="side-text">Gateway to the World — Since 2009</div>
+
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="achieved-badge"><div class="badge-dot"></div><span class="badge-text">2026年4月 達成</span></div>
+      <p class="hero-eyebrow">グローバルレッスン 5,000万回突破記念</p>
+      <h1 class="hero-hl">
+        <span class="l1">5,000万回、</span>
+        <span class="l2">世界への<span class="accent">扉</span>が開いた。</span>
+        <span class="l3">— to be the gateway to the world —</span>
+      </h1>
+      <div class="hero-divider"></div>
+      <p class="hero-sub">2009年、2,479回のレッスンから始まった。<br>1回25分。教師と生徒が向き合うその時間が、<br>17年をかけて5,000万回積み重なり、<br>世界への扉を開き続けてきた。</p>
+      <div class="stat-row">
+        <div class="stat-item"><span class="stat-num" id="cntLessons">0</span><span class="stat-label">累計レッスン数</span></div>
+        <div class="stat-item"><span class="stat-num">17年</span><span class="stat-label">歩みの年数</span></div>
+        <div class="stat-item"><span class="stat-num">25分</span><span class="stat-label">1回のレッスン</span></div>
+      </div>
+      <div class="hero-ctas">
+        <a href="#campaigns" class="btn-primary">キャンペーンに参加する →</a>
+        <a href="#timeline" class="btn-ghost">この物語を読む</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="ticker-bar">
+    <div class="ticker-inner">
+      <div class="ticker-item"><div class="ticker-dot"></div>2009年 — 2,479回でスタート</div>
+      <div class="ticker-item"><div class="ticker-dot"></div>2013年 — 累計100万回突破</div>
+      <div class="ticker-item"><div class="ticker-dot"></div>2015年 — 年間100万回超え</div>
+      <div class="ticker-item"><div class="ticker-dot"></div>2018年 — 累計1,000万回突破</div>
+      <div class="ticker-item"><div class="ticker-dot"></div>2021年 — QQキッズ開講</div>
+      <div class="ticker-item"><div class="ticker-dot"></div>2024年 — ビーチフロント校オープン</div>
+      <div class="ticker-item"><div class="ticker-dot"></div>2025年 — 年間1,058万回・過去最高更新</div>
+      <div class="ticker-item"><div class="ticker-dot"></div><span class="ticker-hi">2026年4月 — 5,000万回達成 🎉</span></div>
+      <div class="ticker-item"><div class="ticker-dot"></div>2009年 — 2,479回でスタート</div>
+      <div class="ticker-item"><div class="ticker-dot"></div>2013年 — 累計100万回突破</div>
+      <div class="ticker-item"><div class="ticker-dot"></div>2015年 — 年間100万回超え</div>
+      <div class="ticker-item"><div class="ticker-dot"></div>2018年 — 累計1,000万回突破</div>
+      <div class="ticker-item"><div class="ticker-dot"></div>2021年 — QQキッズ開講</div>
+      <div class="ticker-item"><div class="ticker-dot"></div>2024年 — ビーチフロント校オープン</div>
+      <div class="ticker-item"><div class="ticker-dot"></div>2025年 — 年間1,058万回・過去最高更新</div>
+      <div class="ticker-item"><div class="ticker-dot"></div><span class="ticker-hi">2026年4月 — 5,000万回達成 🎉</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ §2 TIMELINE ══ -->
+<section id="timeline">
+  <div class="bg grid-bg"></div>
+  <div class="sec-header reveal">
+    <p class="eyebrow">History — 2009 to 2026</p>
+    <h2 class="sec-title">扉が広がってきた、<br><em>17年の軌跡</em></h2>
+    <p class="sec-sub" style="max-width:520px;margin-left:auto;margin-right:auto;">セブ島の小さな教室から始まった挑戦が、<br>世界への扉を開き続け、5,000万回に至った。</p>
+    <div class="header-rule"></div>
+  </div>
+
+  <div class="tl-wrap">
+    <div class="tl-entry">
+      <div class="tl-card"><div class="tl-card-inner"><span class="tl-tag">創業</span><span class="tl-num">2,479回</span><div class="tl-ttl">QQEnglish、創業。</div><p class="tl-desc">オンライン英会話事業とセブ島留学事業を同時にスタート。フィリピン・セブ島に<strong>「IT.Park校」</strong>をオープン。世界への扉を開く旅が始まった。</p></div></div>
+      <div class="tl-center"><div class="tl-node ms"></div><div class="tl-yr">2009</div></div>
+      <div class="tl-sp"></div>
+    </div>
+    <div class="tl-entry">
+      <div class="tl-sp"></div>
+      <div class="tl-center"><div class="tl-node ms"></div><div class="tl-yr">2015</div></div>
+      <div class="tl-card"><div class="tl-card-inner"><span class="tl-tag">拡大</span><span class="tl-num">累計 400万回</span><div class="tl-ttl">シーフロント校、マクタン島にオープン。</div><p class="tl-desc">第2拠点として、リゾートエリア・マクタン島に<strong>シーフロント校</strong>をオープン。海に面した開放的な環境の中で、「リゾート」と「英語学習」を融合した新たな留学スタイルを確立した。</p></div></div>
+    </div>
+    <div class="tl-entry">
+      <div class="tl-card"><div class="tl-card-inner"><span class="tl-tag">海外展開</span><span class="tl-num">累計 900万回</span><div class="tl-ttl">中国オフィスを開設。</div><p class="tl-desc">急成長する英語学習市場を背景に中国へ進出。オンライン英会話事業のグローバル展開を加速させ、アジア圏を中心に<strong>15以上の国と地域</strong>に進出し顧客基盤を拡大している。</p></div></div>
+      <div class="tl-center"><div class="tl-node"></div><div class="tl-yr">2017</div></div>
+      <div class="tl-sp"></div>
+    </div>
+    <div class="tl-entry">
+      <div class="tl-card"><div class="tl-card-inner"><span class="tl-tag">転換点</span><span class="tl-num">累計 1,900万回</span><div class="tl-ttl">教師を解雇せず、オンラインに100%シフト。</div><p class="tl-desc">コロナ禍で留学事業がストップ。しかし<strong>教師を一人も解雇せず</strong>、オンライン事業に全力投球。この決断が後の急成長の礎となった。</p></div></div>
+      <div class="tl-center"><div class="tl-node ms"></div><div class="tl-yr">2020</div></div>
+      <div class="tl-sp"></div>
+    </div>
+    <div class="tl-entry">
+      <div class="tl-sp"></div>
+      <div class="tl-center"><div class="tl-node"></div><div class="tl-yr">2021</div></div>
+      <div class="tl-card"><div class="tl-card-inner"><span class="tl-num">累計 2,290万回</span><div class="tl-ttl">子ども専門英会話「QQキッズ」開講。</div><p class="tl-desc">子供専門のオンライン英会話<strong>「QQキッズ」</strong>を開講。大人だけでなく子どもたちにも世界への扉を開く対象を広げた。</p></div></div>
+    </div>
+    <div class="tl-entry">
+      <div class="tl-card"><div class="tl-card-inner"><span class="tl-tag">復活</span><span class="tl-num">世界累計利用者 70万人突破</span><div class="tl-ttl">留学事業、再開。</div><p class="tl-desc">コロナ禍で一時停止していた留学事業が再開。累計利用者<strong>70万人</strong>を突破し、オンライン×リアルの両輪が再び動き出した。</p></div></div>
+      <div class="tl-center"><div class="tl-node"></div><div class="tl-yr">2022</div></div>
+      <div class="tl-sp"></div>
+    </div>
+    <div class="tl-entry">
+      <div class="tl-sp"></div>
+      <div class="tl-center"><div class="tl-node"></div><div class="tl-yr">2023</div></div>
+      <div class="tl-card"><div class="tl-card-inner"><span class="tl-num">累計 3,200万回</span><div class="tl-ttl">コーチングサービス「Boost coaching」開始。</div><p class="tl-desc">伴走型の英語学習支援<strong>「Boost coaching」</strong>をスタート。学ぶだけでなく、確実に使える英語へと導く新たな扉を開いた。</p></div></div>
+    </div>
+    <div class="tl-entry">
+      <div class="tl-card"><div class="tl-card-inner"><span class="tl-tag">拡大</span><span class="tl-num">累計 3,800万回</span><div class="tl-ttl">「ビーチフロント校」オープン。QQジュニア・CampusTop開始。</div><p class="tl-desc">セブ島に<strong>「ビーチフロント校」</strong>オープン。<strong>「QQジュニア」</strong>と小〜高校生向けコーチング<strong>「CampusTop」</strong>も始動。</p></div></div>
+      <div class="tl-center"><div class="tl-node ms"></div><div class="tl-yr">2024</div></div>
+      <div class="tl-sp"></div>
+    </div>
+    <div class="tl-entry">
+      <div class="tl-sp"></div>
+      <div class="tl-center"><div class="tl-node ms"></div><div class="tl-yr">2025</div></div>
+      <div class="tl-card"><div class="tl-card-inner"><span class="tl-tag">過去最高</span><span class="tl-num">累計 4,900万回</span><div class="tl-ttl">累計利用者80万人。「Lesson for Smile project」始動。</div><p class="tl-desc">世界累計利用者<strong>80万人</strong>到達。年間1,058万回と過去最高を記録。社会貢献プロジェクト<strong>「Lesson for Smile」</strong>もスタート。</p></div></div>
+    </div>
+  </div>
+
+  <div class="tl-final reveal" id="tlFinal">
+    <div class="final-node-wrap">
+      <div class="final-line"></div>
+      <div class="final-star"><svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg></div>
+    </div>
+    <div class="final-badge"><div class="badge-dot"></div><span>2026年4月 達成</span></div>
+    <span class="final-num" id="finalCnt">0</span>
+    <div class="final-label">世界への扉が、5,000万回開いた。</div>
+    <div class="final-sub-txt">— to be the gateway to the world —</div>
+  </div>
+
+  <div style="text-align:center;margin-top:56px;position:relative;z-index:2;" class="reveal">
+    <a href="#message" class="btn-ghost">代表メッセージへ →</a>
+  </div>
+</section>
+
+<!-- ══ §3 MESSAGE ══ -->
+<section id="message">
+  <div class="bg grid-bg"></div>
+  <div class="deco-top"></div>
+  <div style="text-align:center;margin-bottom:64px;position:relative;z-index:2;" class="reveal">
+    <p class="eyebrow">Message from the founder</p>
+  </div>
+  <div class="msg-layout reveal">
+    <div class="msg-photo-col">
+      <div class="photo-frame">
+        <img src="https://www.qqeng.com/assets2/images/mission/staff04.jpg" alt="藤岡頼光" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;">
+      </div>
+      <div class="photo-caption">
+        <div class="cap-name">藤岡頼光</div>
+        <div class="cap-name-en">Raiko Fujioka</div>
+        <div class="cap-div"></div>
+        <div class="cap-title">株式会社QQEnglish<br>代表取締役 / Founder</div>
+      </div>
+      <a href="#" class="video-btn">
+        <div class="vplay"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        <div><div class="vbtn-txt">代表メッセージ動画を見る</div><div class="vbtn-sub">約60秒 — 5,000万回への思い</div></div>
+      </a>
+    </div>
+    <div class="msg-text-col">
+      <div class="pull-q">
+        <div class="pull-q-mark">"</div>
+        <div class="pull-q-text">5,000万回は、<br>終着点ではなく、<br><em>次の扉への出発点です！</em></div>
+      </div>
+      <div class="msg-body">
+        <p>2009年、フィリピン・セブ島の小さな教室でQQEnglishは生まれました。「to be the gateway to the world」——世界への扉を開くこと。それが私たちの変わらぬ使命です。</p>
+        <p>あの頃、年間わずか2,479回だったレッスン数が、今日、<strong>累計5,000万回</strong>を突破しました。この数字は単なる記録ではありません。5,000万回分の「世界と繋がりたい」という思いが積み重なった証です。</p>
+        <div class="key-phrase">コロナ禍で留学事業が止まった2020年、私たちは一人の教師も解雇しませんでした。それは、教師と生徒の「つながり」こそがQQEnglishの本質だと信じていたからです。</div>
+        <p>その決断が今日の成長につながったと確信しています。支えてくださったすべての生徒の皆様、17年間ともに歩んでくれた教師たち、スタッフ全員に、心から感謝を申し上げます。</p>
+        <p>5,000万回という節目を祝いながら、私たちはすでに次を見ています。<strong>その挑戦は、これからも続きます。</strong></p>
+      </div>
+      <div class="signoff">
+        <div class="signoff-text">
+          <div class="so-name">藤岡頼光</div>
+          <div class="so-title">QQEnglish 代表取締役/Founder</div>
+        </div>
+        <div class="so-sig">Raiko Fujioka</div>
+      </div>
+    </div>
+  </div>
+  <div class="num-strip reveal" style="margin-top:72px;">
+    <div class="strip-inner">
+      <div class="strip-item"><span class="strip-num">5,000万回</span><span class="strip-lbl">累計レッスン数</span></div>
+      <div class="strip-item"><span class="strip-num">80万人</span><span class="strip-lbl">世界累計利用者数</span></div>
+      <div class="strip-item"><span class="strip-num">17年</span><span class="strip-lbl">開業からの歩み</span></div>
+      <div class="strip-item"><span class="strip-num">30ヵ国以上</span><span class="strip-lbl">生徒の出身国</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ §4 TEACHERS ══ -->
+<section id="teachers">
+  <div class="bg grid-bg"></div>
+  <div class="sec-header reveal">
+    <p class="eyebrow">Our Teachers — Top 10</p>
+    <h2 class="sec-title">扉を開いてきた、<br><em>10人の教師たち</em></h2>
+    <p class="sec-sub" style="max-width:500px;margin-left:auto;margin-right:auto;">5,000万回の向こう側には、いつも教師がいた。<br>生徒一人ひとりに向き合い続けた、10人の物語。</p>
+    <div class="header-rule"></div>
+  </div>
+  <div class="filter-row reveal">
+    <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+    <button class="filter-btn" onclick="setFilter('lessons',this)">レッスン数順</button>
+    <button class="filter-btn" onclick="setFilter('years',this)">勤続年数順</button>
+  </div>
+  <div class="gallery-grid reveal" id="galleryGrid">
+    <div class="t-card" data-lessons="62400" data-years="13">
+      <div class="t-photo"><img src="https://www.qqeng.com/q/cache/images/teacher/d0/f8/a1ffe26663645daea800e0470c2993bfff50d0f8.200x200.cut.jpg" alt="Chu" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;"><div class="rank-badge top1">1</div><div class="t-overlay"></div><div class="t-info"><div class="t-name">Chu</div><div class="t-lessons">62,400 lessons · 13年勤続</div></div></div>
+      <div class="t-hover"><div class="h-tag">Top Teacher · No.1</div><div class="h-name">Chu</div><div class="h-lessons">62,400 lessons completed</div><div class="h-div"></div><div class="h-quote">Every lesson is a door I help someone open. Watching students grow from hesitant speakers to confident communicators — that is why I teach.</div><div class="h-yrs"><span class="h-yrs-lbl">勤続</span><span class="h-yrs-val">13年</span></div></div>
+    </div>
+    <div class="t-card" data-lessons="58100" data-years="11">
+      <div class="t-photo"><img src="https://www.qqeng.com/q/cache/images/teacher/4e/2c/c5b99f3066cfe465125cf1c65a684251743f4e2c.200x200.cut.jpg" alt="Elise" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;"><div class="rank-badge">2</div><div class="t-overlay"></div><div class="t-info"><div class="t-name">Elise</div><div class="t-lessons">58,100 lessons · 11年</div></div></div>
+      <div class="t-hover"><div class="h-tag">Top Teacher · No.2</div><div class="h-name">Elise</div><div class="h-lessons">58,100 lessons</div><div class="h-div"></div><div class="h-quote">I believe the best lessons happen when students forget they are studying and simply start talking.</div><div class="h-yrs"><span class="h-yrs-lbl">勤続</span><span class="h-yrs-val">11年</span></div></div>
+    </div>
+    <div class="t-card" data-lessons="54700" data-years="10">
+      <div class="t-photo"><img src="https://www.qqeng.com/q/cache/images/teacher/90/30/fc0626de9c4b9644f8223f22f09d3fe5ed9e9030.200x200.cut.jpg" alt="Fem" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;"><div class="rank-badge">3</div><div class="t-overlay"></div><div class="t-info"><div class="t-name">Fem</div><div class="t-lessons">54,700 lessons · 10年</div></div></div>
+      <div class="t-hover"><div class="h-tag">Top Teacher · No.3</div><div class="h-name">Fem</div><div class="h-lessons">54,700 lessons</div><div class="h-div"></div><div class="h-quote">English is not just a language — it is a key. My job is to put that key in your hands.</div><div class="h-yrs"><span class="h-yrs-lbl">勤続</span><span class="h-yrs-val">10年</span></div></div>
+    </div>
+    <div class="t-card" data-lessons="51200" data-years="9">
+      <div class="t-photo"><img src="https://www.qqeng.com/q/cache/images/teacher/a7/40/a32601d9c6c29fa4f5981e90772803111121a740.200x200.cut.jpg" alt="Rocky" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;"><div class="rank-badge">4</div><div class="t-overlay"></div><div class="t-info"><div class="t-name">Rocky</div><div class="t-lessons">51,200 lessons · 9年</div></div></div>
+      <div class="t-hover"><div class="h-tag">Top Teacher · No.4</div><div class="h-name">Rocky</div><div class="h-lessons">51,200 lessons</div><div class="h-div"></div><div class="h-quote">The moment a student says "I finally said it without thinking" — that moment makes every lesson worth it.</div><div class="h-yrs"><span class="h-yrs-lbl">勤続</span><span class="h-yrs-val">9年</span></div></div>
+    </div>
+    <div class="t-card" data-lessons="48900" data-years="9">
+      <div class="t-photo"><img src="https://www.qqeng.com/q/cache/images/teacher/15/52/be27b084e413861bdcf69277d46e14653bad1552.200x200.cut.jpg" alt="Dawn" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;"><div class="rank-badge">5</div><div class="t-overlay"></div><div class="t-info"><div class="t-name">Dawn</div><div class="t-lessons">48,900 lessons · 9年</div></div></div>
+      <div class="t-hover"><div class="h-tag">Top Teacher · No.5</div><div class="h-name">Dawn</div><div class="h-lessons">48,900 lessons</div><div class="h-div"></div><div class="h-quote">I grew up in Cebu dreaming of connecting with the world. Now I help others do the same, 25 minutes at a time.</div><div class="h-yrs"><span class="h-yrs-lbl">勤続</span><span class="h-yrs-val">9年</span></div></div>
+    </div>
+    <div class="t-card" data-lessons="45300" data-years="8">
+      <div class="t-photo"><img src="https://www.qqeng.com/q/cache/images/teacher/05/06/27b37cbcd1da7b04f8f78c990fe964c5804e0506.200x200.cut.jpg" alt="Arnette" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;"><div class="rank-badge">6</div><div class="t-overlay"></div><div class="t-info"><div class="t-name">Arnette</div><div class="t-lessons">45,300 lessons · 8年</div></div></div>
+      <div class="t-hover"><div class="h-tag">Top Teacher · No.6</div><div class="h-name">Arnette</div><div class="h-lessons">45,300 lessons</div><div class="h-div"></div><div class="h-quote">Confidence is built one conversation at a time. I am honored to be part of each student's journey.</div><div class="h-yrs"><span class="h-yrs-lbl">勤続</span><span class="h-yrs-val">8年</span></div></div>
+    </div>
+    <div class="t-card" data-lessons="42800" data-years="8">
+      <div class="t-photo"><img src="https://www.qqeng.com/q/cache/images/teacher/9e/d7/583753c5ffb8039172864986c4b721fb32409ed7.200x200.cut.jpg" alt="Cumin" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;"><div class="rank-badge">7</div><div class="t-overlay"></div><div class="t-info"><div class="t-name">Cumin</div><div class="t-lessons">42,800 lessons · 8年</div></div></div>
+      <div class="t-hover"><div class="h-tag">Top Teacher · No.7</div><div class="h-name">Cumin</div><div class="h-lessons">42,800 lessons</div><div class="h-div"></div><div class="h-quote">When my students speak English with strangers abroad and come back to tell me — I feel like I traveled there with them.</div><div class="h-yrs"><span class="h-yrs-lbl">勤続</span><span class="h-yrs-val">8年</span></div></div>
+    </div>
+    <div class="t-card" data-lessons="39500" data-years="7">
+      <div class="t-photo"><img src="https://www.qqeng.com/q/cache/images/teacher/ba/47/23d547ab5ac32dbffb404e4f2f0fc77a5a6bba47.200x200.cut.jpg" alt="Push" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;"><div class="rank-badge">8</div><div class="t-overlay"></div><div class="t-info"><div class="t-name">Push</div><div class="t-lessons">39,500 lessons · 7年</div></div></div>
+      <div class="t-hover"><div class="h-tag">Top Teacher · No.8</div><div class="h-name">Push</div><div class="h-lessons">39,500 lessons</div><div class="h-div"></div><div class="h-quote">Every student brings a new world into my classroom. Teaching here has made me a citizen of the world too.</div><div class="h-yrs"><span class="h-yrs-lbl">勤続</span><span class="h-yrs-val">7年</span></div></div>
+    </div>
+    <div class="t-card" data-lessons="37200" data-years="7">
+      <div class="t-photo"><img src="https://www.qqeng.com/q/cache/images/teacher/9d/d3/e50cbcf40537789890678428da1e529dce879dd3.200x200.cut.jpg" alt="Maeka" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;"><div class="rank-badge">9</div><div class="t-overlay"></div><div class="t-info"><div class="t-name">Maeka</div><div class="t-lessons">37,200 lessons · 7年</div></div></div>
+      <div class="t-hover"><div class="h-tag">Top Teacher · No.9</div><div class="h-name">Maeka</div><div class="h-lessons">37,200 lessons</div><div class="h-div"></div><div class="h-quote">I never tire of that spark — the moment a student realizes they can truly express themselves in English.</div><div class="h-yrs"><span class="h-yrs-lbl">勤続</span><span class="h-yrs-val">7年</span></div></div>
+    </div>
+    <div class="t-card" data-lessons="35600" data-years="6">
+      <div class="t-photo"><img src="https://www.qqeng.com/q/cache/images/teacher/d0/56/108ad6604176ff695478f416af18e7b35d58d056.200x200.cut.png" alt="Dekta" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;"><div class="rank-badge">10</div><div class="t-overlay"></div><div class="t-info"><div class="t-name">Dekta</div><div class="t-lessons">35,600 lessons · 6年</div></div></div>
+      <div class="t-hover"><div class="h-tag">Top Teacher · No.10</div><div class="h-name">Dekta</div><div class="h-lessons">35,600 lessons</div><div class="h-div"></div><div class="h-quote">QQ English gave me the platform to share what I love most — connecting people through language.</div><div class="h-yrs"><span class="h-yrs-lbl">勤続</span><span class="h-yrs-val">6年</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ §5 CAMPAIGNS ══ -->
+<section id="campaigns">
+  <div class="bg grid-bg"></div>
+  <div class="sec-header reveal">
+    <p class="eyebrow">Campaigns — 5,000万回突破記念</p>
+    <h2 class="sec-title">あなたも、この<em>物語の一部</em>へ。</h2>
+    <p class="sec-sub" style="max-width:520px;margin-left:auto;margin-right:auto;">5,000万回の扉を開いてきたのは、教師と生徒、その全員。<br>3つのキャンペーンで、感謝と喜びをともに分かち合おう。</p>
+    <div class="header-rule"></div>
+  </div>
+  <div class="camps">
+    <div class="c-card reveal" id="c1">
+      <div class="c-head" onclick="toggleC('c1')">
+        <div class="c-num-col"><div class="c-num">01</div></div>
+        <div class="c-title-col"><span class="c-tag">SNSキャンペーン · 既存ユーザー</span><div class="c-title">5,000万回の「ありがとう」</div><div class="c-sub">教師からの感謝動画リレー × あなたのレッスン物語を投稿</div></div>
+        <div class="c-right"><div><div class="c-prize-lbl">賞品</div><div class="c-prize-val">豪華プレゼント<br>抽選でプレゼント</div></div><div class="c-toggle">+</div></div>
+      </div>
+      <div class="c-body">
+        <div class="c-body-inner">
+          <div class="c-bl">
+            <div class="c-sec-lbl">キャンペーン概要</div>
+            <p class="c-desc">フィリピンの教師たちから日本の生徒へ向けた<strong>「Thank you」動画</strong>をつなぎ合わせ、5,000万回の重みを可視化します。お気に入りの教師やレッスンでの感動エピソードをSNSに投稿してください。</p>
+            <div class="c-sec-lbl">参加方法</div>
+            <div class="how-steps">
+              <div class="how-step"><div class="how-step-n">1</div><div class="how-step-t">アニュアルレポートで<strong>自分のレッスン数を確認</strong>し、5,000万回で割った「割合」を算出する</div></div>
+              <div class="how-step"><div class="how-step-n">2</div><div class="how-step-t">お気に入りの教師・レッスンの感動エピソードを<strong>SNSに投稿</strong></div></div>
+              <div class="how-step"><div class="how-step-n">3</div><div class="how-step-t">ハッシュタグ <strong>#QQ5000万回</strong> を付けて投稿完了</div></div>
+            </div>
+            <div class="c-period"><div class="c-period-dot"></div>キャンペーン期間：2026年◯月◯日〜◯月◯日</div>
+          </div>
+          <div class="c-br">
+            <div class="prize-box"><div class="prize-icon">🎁</div><div class="prize-title">豪華プレゼント</div><div class="prize-sub">5,000万回に占める自分のレッスン割合が高かった方を中心に、抽選でプレゼントをお届けします。<br><br>※賞品詳細は近日公開予定</div></div>
+            <p class="prize-note">アニュアルレポートをまだ確認していない方はキャンペーン参加前にチェックを。</p>
+            <div class="c-cta-row"><a href="#" class="btn-primary">今すぐ参加する →</a><a href="https://s.qqeng.com/spc/6e3bubycjwtm2?v=88e9i9nfv4io3" class="btn-ghost" target="_blank">レポートを見る</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="c-card reveal" id="c2">
+      <div class="c-head" onclick="toggleC('c2')">
+        <div class="c-num-col"><div class="c-num">02</div></div>
+        <div class="c-title-col"><span class="c-tag">プレミアム体験 · 抽選3名</span><div class="c-title">フィリピンへの架け橋<br>「聖地巡礼ツアー」</div><div class="c-sub">セブ島への招待 × お気に入りの教師にリアルで会いに行く</div></div>
+        <div class="c-right"><div><div class="c-prize-lbl">賞品</div><div class="c-prize-val">セブ島ツアー<br>招待（3名）</div></div><div class="c-toggle">+</div></div>
+      </div>
+      <div class="c-body">
+        <div class="c-body-inner">
+          <div class="c-bl">
+            <div class="c-sec-lbl">キャンペーン概要</div>
+            <p class="c-desc">「to be the gateway to the world」を文字通り体現するキャンペーン。抽選で<strong>3名様をフィリピン・セブ島へご招待</strong>します。画面越しに出会ってきた教師と、リアルで対面できる唯一無二の機会です。</p>
+            <div class="c-sec-lbl">参加方法</div>
+            <div class="how-steps">
+              <div class="how-step"><div class="how-step-n">1</div><div class="how-step-t">QQEnglish公式投稿を<strong>引用リポスト</strong></div></div>
+              <div class="how-step"><div class="how-step-n">2</div><div class="how-step-t"><strong>「もしセブに行けたら、どの教師に会って何を伝えたいか」</strong>を投稿（英語・日本語可）</div></div>
+              <div class="how-step"><div class="how-step-n">3</div><div class="how-step-t"><strong>#QQ5000万回 #セブへの架け橋</strong> を付けて完了。審査の上3名を選出</div></div>
+            </div>
+            <div class="c-period"><div class="c-period-dot"></div>キャンペーン期間：2026年◯月◯日〜◯月◯日</div>
+          </div>
+          <div class="c-br">
+            <div class="prize-box"><div class="prize-icon">✈️</div><div class="prize-title">セブ島招待ツアー<br>（3名様）</div><div class="prize-sub">往復航空券・宿泊費込み<br>キャンパス見学ツアー付き<br>教師との特別対面レッスン<br><br>※日程・詳細は近日公開予定</div></div>
+            <p class="prize-note">当選者のセブ訪問レポートは後日公式サイト・SNSで公開予定です。</p>
+            <div class="c-cta-row"><a href="#" class="btn-primary">今すぐ応募する →</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="c-card reveal" id="c3">
+      <div class="c-head" onclick="toggleC('c3')">
+        <div class="c-num-col"><div class="c-num">03</div></div>
+        <div class="c-title-col"><span class="c-tag">オープン参加 · 新規・既存</span><div class="c-title">英語で叶える夢を語ろう<br>レッスン5,000回プレゼント</div><div class="c-sub">英語で実現したい夢を投稿 × 抽選で3名にレッスン5,000回</div></div>
+        <div class="c-right"><div><div class="c-prize-lbl">賞品</div><div class="c-prize-val">レッスン5,000回<br>（3名様）</div></div><div class="c-toggle">+</div></div>
+      </div>
+      <div class="c-body">
+        <div class="c-body-inner">
+          <div class="c-bl">
+            <div class="c-sec-lbl">キャンペーン概要</div>
+            <p class="c-desc">5,000万回という節目に、<strong>レッスン5,000回分</strong>を3名様にプレゼント。新規の方もエントリーできるオープンキャンペーンです。「英語で何を実現したいか」——あなたの夢を投稿してください。</p>
+            <div class="c-sec-lbl">参加方法</div>
+            <div class="how-steps">
+              <div class="how-step"><div class="how-step-n">1</div><div class="how-step-t"><strong>「英語で実現したい夢」</strong>を日本語または英語で投稿（英語で書いた方は追加応募権あり）</div></div>
+              <div class="how-step"><div class="how-step-n">2</div><div class="how-step-t"><strong>#QQ5000万回 #英語で叶える夢</strong> を付けてSNSに投稿</div></div>
+              <div class="how-step"><div class="how-step-n">3</div><div class="how-step-t">抽選で<strong>3名様</strong>にレッスン5,000回分をプレゼント</div></div>
+            </div>
+            <div class="c-period"><div class="c-period-dot"></div>キャンペーン期間：2026年◯月◯日〜◯月◯日</div>
+          </div>
+          <div class="c-br">
+            <div class="prize-box"><div class="prize-icon">🌏</div><div class="prize-title">レッスン5,000回<br>（3名様）</div><div class="prize-sub">5,000回 = 約208日分<br>毎日1回受講しても<strong style="color:var(--gold-light);">約13年8ヶ月分</strong>のレッスン。<br><br>英語で世界への扉を開くための、すべての時間をお届けします。</div></div>
+            <p class="prize-note">QQEnglishを初めてご利用の方もエントリー可能。まず無料体験からどうぞ。</p>
+            <div class="c-cta-row"><a href="#" class="btn-primary">夢を投稿する →</a><a href="#" class="btn-ghost">無料体験を見る</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="report-co reveal" style="margin:2px 40px 0;">
+    <div class="rc-left"><div class="rc-icon">📊</div><div><div class="rc-head">あなたのQQEnglishとの時間を確認しよう</div><div class="rc-sub">キャンペーン①の参加にはアニュアルレポートでのレッスン数確認が必要です。</div></div></div>
+    <a href="https://s.qqeng.com/spc/6e3bubycjwtm2?v=88e9i9nfv4io3" class="btn-report" target="_blank">レポートを開く →</a>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="bg"></div>
+  <div class="footer-logo" style="position:relative;z-index:2;">QQ English</div>
+  <div class="footer-mission" style="position:relative;z-index:2;">— to be the gateway to the world —</div>
+  <div class="footer-divider"></div>
+  <div class="footer-links" style="position:relative;z-index:2;">
+    <a href="#">無料体験レッスン</a>
+    <a href="#">コース一覧</a>
+    <a href="#">セブ島留学</a>
+    <a href="#">会社概要</a>
+    <a href="#">プライバシーポリシー</a>
+  </div>
+  <div class="footer-copy" style="position:relative;z-index:2;">© 2026 QQ English Co., Ltd. All rights reserved.</div>
+</footer>
+
+<!-- ══ SCRIPTS ══ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+/* ── Nav scroll ── */
+window.addEventListener('scroll', () => {
+  document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+/* ── Scroll reveal ── */
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+/* ── TL entries ── */
+const tlObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); tlObs.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.tl-entry').forEach((el, i) => { el.style.transitionDelay = (i * 70) + 'ms'; tlObs.observe(el); });
+
+/* ── Final counter (TL) ── */
+const tlFinalObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      countUp(document.getElementById('finalCnt'), 50000000, 2200, v => {
+        if (v >= 50000000) return '5,000万回';
+        const m = Math.round(v / 10000);
+        return m === 0 ? '0' : m.toLocaleString() + '万回';
+      });
+      tlFinalObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.15 });
+tlFinalObs.observe(document.getElementById('tlFinal'));
+
+/* ── Hero counter ── */
+function countUp(el, target, dur, fmt) {
+  const start = performance.now();
+  function tick(now) {
+    const t = Math.min((now - start) / dur, 1);
+    const eased = 1 - Math.pow(1 - t, 4);
+    el.textContent = fmt(Math.round(target * eased));
+    if (t < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+setTimeout(() => {
+  countUp(document.getElementById('cntLessons'), 50000000, 2600, v => {
+    if (v >= 50000000) return '5,000万回';
+    const m = Math.round(v / 10000);
+    return m === 0 ? '0' : m.toLocaleString() + '万回';
+  });
+}, 1200);
+
+/* ── Hero chart ── */
+const chartData = [
+  {y:'2009',a:2479,t:2479},{y:'2010',a:30050,t:32529},{y:'2011',a:168498,t:201027},
+  {y:'2012',a:349927,t:550954},{y:'2013',a:610278,t:1161232},{y:'2014',a:840405,t:2001637},
+  {y:'2015',a:1828235,t:3829872},{y:'2016',a:2479275,t:6309147},{y:'2017',a:2852040,t:9161187},
+  {y:'2018',a:3225254,t:12386441},{y:'2019',a:3723417,t:16109858},{y:'2020',a:3234044,t:19343902},
+  {y:'2021',a:3585951,t:22929853},{y:'2022',a:4042022,t:26971875},{y:'2023',a:5177984,t:32149859},
+  {y:'2024',a:6539832,t:38689691},{y:'2025',a:10581000,t:49270691},{y:"'26/4",a:730309,t:50000000},
+];
+function fmtN(n){
+  if(n>=10000000)return(n/10000000).toFixed(1).replace('.0','')+'千万';
+  if(n>=1000000)return(n/1000000).toFixed(1).replace('.0','')+'百万';
+  if(n>=10000)return Math.round(n/10000)+'万';
+  return n.toLocaleString();
+}
+const heroChartEl = document.getElementById('heroChart');
+if (!heroChartEl) { /* chart removed from hero */ }
+else { const hCtx = heroChartEl.getContext('2d');
+new Chart(hCtx,{
+  type:'bar',
+  data:{
+    labels:chartData.map(d=>d.y),
+    datasets:[
+      {type:'bar',label:'年間',data:chartData.map(d=>d.a),
+       backgroundColor:chartData.map((_,i)=>i===17?'rgba(0,170,205,0.9)':i===16?'rgba(0,170,205,0.6)':'rgba(0,170,205,0.22)'),
+       borderColor:chartData.map((_,i)=>i>=16?'rgba(0,170,205,1)':'transparent'),
+       borderWidth:1,borderRadius:2,order:2,yAxisID:'y'},
+      {type:'line',label:'累計',data:chartData.map(d=>d.t),
+       borderColor:'rgba(0,77,150,0.7)',borderWidth:2,
+       pointRadius:chartData.map((_,i)=>i===17?7:2),
+       pointBackgroundColor:chartData.map((_,i)=>i===17?'#0077B6':'rgba(0,119,182,0.5)'),
+       pointBorderColor:chartData.map((_,i)=>i===17?'rgba(0,170,205,0.4)':'transparent'),
+       pointBorderWidth:chartData.map((_,i)=>i===17?4:0),
+       fill:false,tension:0.38,order:1,yAxisID:'y2'}
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    animation:{duration:1600,easing:'easeOutQuart',delay:ctx=>ctx.datasetIndex===0?ctx.dataIndex*55:800},
+    interaction:{mode:'index',intersect:false},
+    plugins:{
+      legend:{display:false},
+      tooltip:{enabled:false,external:({tooltip})=>{
+        const el=document.getElementById('chartTt');
+        if(tooltip.opacity===0){el.style.opacity=0;return;}
+        const i=tooltip.dataPoints[0].dataIndex,d=chartData[i];
+        el.querySelector('.tt-y').textContent=(i===17?'2026年4月':d.y+'年');
+        document.getElementById('ttAnnual').innerHTML='年間　<strong style="color:var(--cream)">'+fmtN(d.a)+'回</strong>';
+        document.getElementById('ttTotal').innerHTML='累計　<strong style="color:var(--cream)">'+d.t.toLocaleString()+'回</strong>'+(i===17?' 🎉':'');
+        el.style.opacity=1;el.style.left=tooltip.caretX+'px';el.style.top=tooltip.caretY+'px';
+      }}
+    },
+    scales:{
+      x:{grid:{color:'rgba(11,34,64,0.04)',drawTicks:false},border:{color:'rgba(11,34,64,0.08)'},
+         ticks:{color:(_,i)=>i===17?'rgba(0,170,205,1)':'rgba(11,34,64,0.5)',font:{size:9.5,family:'DM Sans'},maxRotation:0,
+                callback:(v,i)=>{const yr=chartData[i]?.y;return['"2009','2012','2015','2018','2021','2024',"'26/4"].includes(yr)?yr:'';}}},
+      y:{position:'left',grid:{color:'rgba(11,34,64,0.05)',drawTicks:false},border:{dash:[3,5],color:'transparent'},
+         ticks:{color:'rgba(11,34,64,0.45)',font:{size:9,family:'DM Sans'},maxTicksLimit:5,callback:v=>fmtN(v)}},
+      y2:{position:'right',grid:{display:false},border:{color:'transparent'},
+          ticks:{color:'rgba(11,34,64,0.38)',font:{size:9,family:'DM Sans'},maxTicksLimit:4,
+                 callback:v=>{if(v>=10000000)return(v/10000000).toFixed(0)+'千万';if(v>=1000000)return(v/1000000).toFixed(0)+'百万';return '';}}}
+    }
+  }
+}); } // end heroChart guard
+
+/* ── Parallax ── */
+document.addEventListener('mousemove', e => {
+  const x=(e.clientX/window.innerWidth-0.5)*18, y=(e.clientY/window.innerHeight-0.5)*10;
+  const grid=document.querySelector('.hero-grid');
+  if(grid)grid.style.transform=`translate(${x*0.25}px,${y*0.25}px)`;
+  document.querySelectorAll('.orb').forEach((o,i)=>{o.style.transform=`translate(${x*(i+1)*0.6}px,${y*(i+1)*0.6}px)`;});
+});
+
+/* ── Teacher filter ── */
+function setFilter(type, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const cards=[...document.querySelectorAll('.t-card')];
+  if(type==='all'){cards.forEach((c,i)=>{c.style.order=i;});return;}
+  [...cards].sort((a,b)=>parseInt(b.dataset[type])-parseInt(a.dataset[type])).forEach((c,i)=>{c.style.order=i;});
+}
+
+/* ── Campaign accordion ── */
+function toggleC(id) {
+  const card=document.getElementById(id);
+  const isOpen=card.classList.contains('open');
+  document.querySelectorAll('.c-card').forEach(c=>c.classList.remove('open'));
+  if(!isOpen)card.classList.add('open');
+}
+setTimeout(()=>document.getElementById('c1').classList.add('open'), 800);
+
+/* ── Mobile menu ── */
+function toggleMenu() {
+  const links=document.querySelector('.nav-links');
+  if(links.style.display==='flex'){links.style.display='none';}
+  else{links.style.display='flex';links.style.flexDirection='column';links.style.position='absolute';links.style.top='60px';links.style.left='0';links.style.right='0';links.style.background='rgba(240,250,255,0.98)';links.style.padding='20px 24px';links.style.borderTop='0.5px solid var(--border)';}
+}
+</script>
+</body>
+</html>
